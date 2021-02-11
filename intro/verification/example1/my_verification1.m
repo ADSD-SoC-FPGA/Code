@@ -43,12 +43,9 @@ line_in = fgetl(fid1);  % read the first line in the file
 a = fi(0,S,W,F);   % interpret the bit string appropriately by creating a fixed-point object with appropriate parameters
 index = 1;
 while ischar(line_in)
-    a.bin = line_in; % push the binary string into the fixed-point 
-                     % object where it will be interpreted with 
-                     % the given S (sign), W (word length), 
-                     % and F (frational bits) values
+    a.bin = line_in; % push the binary string into the fixed-point object where it will be interpreted with the given S (sign), W (word length), and F (frational bits) values
     test_vectors(index) = a;  % save this fixed-point object
-    disp([num2str(index) ' : ' line_in ' = ' num2str(a)]) % display what we are reading in
+    disp([num2str(index) ' : ' line_in ' = ' num2str(a)]) % display what we are reading in (comment out if there a lot of test vectors)
     index = index + 1;
     line_in = fgetl(fid1);
 end
