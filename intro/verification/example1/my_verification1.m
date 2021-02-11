@@ -63,7 +63,7 @@ fclose(fid1);
 % 'L': Weak signal that should probably go to 0
 % 'H': Weak signal that should probably go to 1
 % '-': Don't care.
-stdchar = 'UXZWLH-'; % create a list of all non-binary std_logic characters we will ignore non-binary strings when reading input.txt
+stdchar = 'UXZWLH-'; % create a list of all non-binary std_logic characters we will ignore non-binary strings when reading output.txt
 
 %---------------------------------------------------------------
 % Read in the simulation result vectors from file output.txt
