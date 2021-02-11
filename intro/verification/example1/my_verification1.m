@@ -75,13 +75,12 @@ line_in = fgetl(fid2);  % read first line in file
 a = fi(0,S,W,F);  % interpret the bit string appropriately by creating a fixed-point object with appropriate parameters
 index = 1;
 while ischar(line_in)
-    % check if the input string contains any std_logic characters 
-    % other than the binary characters
+    % check if the input string contains any std_logic characters other than the binary characters
     s = 0;
     for i=1:7
         s = s + contains(line_in,stdchar(i));  % check line_in for each non-binary std_logic value contains() will return 1 if it finds such a value
     end
-    if s == 0  % s will be zero if line_in contains only 0s or 1s so we have a valid string that we can convert
+    if s == 0  % s will be zero if line_in contains only 0s or 1s, which means we have a valid string that we can convert
         a.bin = line_in;  % convert binary string to fixed-point
         vhdl_vectors(index) = a;        
         disp([num2str(index) ' : ' line_in ' = ' num2str(a)])
