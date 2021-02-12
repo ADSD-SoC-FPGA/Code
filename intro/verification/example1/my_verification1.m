@@ -82,7 +82,7 @@ while ischar(line_in)
     end
     if s == 0  % s will be zero if line_in contains only 0s or 1s, which means we have a valid string that we can convert
         a.bin = line_in;  % convert binary string to fixed-point
-        vhdl_vectors(index) = a;        
+        vhdl_result(index) = a;        
         disp([num2str(index) ' : ' line_in ' = ' num2str(a)])
         index = index + 1;
     else
@@ -95,7 +95,7 @@ fclose(fid2);
 %--------------------------------------------------------
 % Run test vectors through my_fxpt_function
 %--------------------------------------------------------
-matlab_vectors = my_fxpt_function(test_vectors);
+matlab_result = my_component1(test_vectors);
 
 %--------------------------------------------------------
 % Compare matlab_vectors to vhdl_vectors
@@ -105,8 +105,8 @@ disp('Performing Verification')
 index_offset = 0;  % set the alignment offset if needed (initial output.txt values might be valid and not ignored if they contain only binary characters)
 error_flag = 0;
 for i=1:Nvectors
-    x = matlab_vectors(i);
-    y = vhdl_vectors(i + index_offset);
+    x = matlab_result(i);
+    y = vhdl_result(i + index_offset);
     if strcmp(x.bin,y.bin) == 0
         a = test_vectors(i);
         disp(['    -------------------------------------------'])
