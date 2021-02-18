@@ -95,7 +95,7 @@ fclose(fid2);
 %--------------------------------------------------------
 % Run test vectors through my_fxpt_function
 %--------------------------------------------------------
-matlab_result = my_component1(test_vectors);
+matlab_vectors = my_component1(test_vectors);
 
 %--------------------------------------------------------
 % Compare matlab_vectors to vhdl_vectors
@@ -105,7 +105,7 @@ disp('Performing Verification')
 index_offset = 0;  % set the alignment offset if needed (initial output.txt values might be valid and not ignored if they contain only binary characters)
 error_flag = 0;
 for i=1:Nvectors
-    x = matlab_result(i);
+    x = matlab_vectors(i);
     y = vhdl_result(i + index_offset);
     if strcmp(x.bin,y.bin) == 0
         a = test_vectors(i);
