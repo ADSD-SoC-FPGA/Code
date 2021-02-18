@@ -117,7 +117,7 @@ begin
             readline(read_file_pointer, line_in); -- Read a line from input file
             read(line_in, input_string);          -- convert line to a string
             input_vector := to_std_logic_vector(input_string); -- convert string to std_logic_vector
-            report "line in = " & line_in.all & " value in = " & integer'image(to_integer(unsigned(input_vector)));  -- display what is being read in
+            report "line in = " & input_string & " value in = " & integer'image(to_integer(unsigned(input_vector)));  -- Display what is being read in (in the ModelSim Transcript window)
             input_signal <= input_vector;  -- assign to the input_signal going into the DUT
             -- Write results
             write(line_out, output_signal, right, W_WIDTH);
