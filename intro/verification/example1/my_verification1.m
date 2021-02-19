@@ -110,9 +110,9 @@ for i=1:Nvectors
     if strcmp(x.bin,y.bin) == 0
         a = test_vectors(i);
         disp(['    -------------------------------------------'])
-        disp(['    Verification Error Occurred for test vector ' num2str(a) ' = ' a.bin '(index = ' num2str(i) ')'])
-        disp(['    Matlab result = ' x.bin ' = ' num2str(x)])
-        disp(['    VHDL result   = ' y.bin ' = ' num2str(y)])
+        disp(['    Verification Error Occurred for Test vector ' num2str(a) ' = ' a.bin '(index = ' num2str(i) ')'])
+        disp(['    Matlab vector = ' x.bin ' = ' num2str(x)])
+        disp(['    VHDL vector   = ' y.bin ' = ' num2str(y)])
         error_flag = 1;
     end
 end
