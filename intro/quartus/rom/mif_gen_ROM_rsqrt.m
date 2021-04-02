@@ -56,6 +56,11 @@ mif_gen(filename,array,memory_size,comments)
 
 disp(['Writing to ' filename '.mif ' num2str(memory_size(1)) ' ' num2str(memory_size(2)) '-bit memory words' ])
 
+%-----------------------------------------------------------------------
+% Save the ROM values in a Matlab .mat file for verification purposes
+%-----------------------------------------------------------------------
+save([filename '.mat'], 'array')
+
 
 
 
