@@ -62,8 +62,8 @@ architecture my_architecture of my_component2 is
     signal my_input_delayed_1 : std_logic_vector(MY_WORD_W-1 downto 0);
     signal my_input_delayed_2 : std_logic_vector(MY_WORD_W-1 downto 0);
     signal rom_value          : std_logic_vector(MY_ROM_Q_W-1 downto 0);
-	signal my_product         : std_logic_vector(MY_WORD_W+MY_ROM_Q_W-1 downto 0);
-	signal my_product_trimmed : std_logic_vector(MY_WORD_W-1 downto 0);
+    signal my_product         : std_logic_vector(MY_WORD_W+MY_ROM_Q_W-1 downto 0);
+    signal my_product_trimmed : std_logic_vector(MY_WORD_W-1 downto 0);
 
     -- delay array
     type my_delay_array is array (natural range <>) of std_logic_vector(MY_WORD_W-1 downto 0);
