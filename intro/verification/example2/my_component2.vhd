@@ -29,14 +29,14 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
 entity my_component2 is
-	generic (
+    generic (
         MY_ROM_A_W    : natural;   -- Width of ROM Address bus 
         MY_ROM_Q_W    : natural;   -- Width of ROM output 
         MY_ROM_Q_F    : natural;   -- Number of fractional bits in ROM output 
         MY_WORD_W     : natural;   -- Width of input signal
         MY_WORD_F     : natural;   -- Number of fractional bits in input signal
         MY_DELAY      : natural);  -- The amount to delay the product before sending out of component
-	port (
+    port (
         my_clk         : in  std_logic;
         my_rom_address : in  std_logic_vector(MY_ROM_A_W-1 downto 0);
         my_input       : in  std_logic_vector(MY_WORD_W-1  downto 0);
@@ -68,6 +68,7 @@ architecture my_architecture of my_component2 is
     -- delay array
     type my_delay_array is array (natural range <>) of std_logic_vector(MY_WORD_W-1 downto 0);
     signal delay_vector : my_delay_array(MY_DELAY-2 downto 0);
+				  
 begin
  
     ------------------------------------------------
