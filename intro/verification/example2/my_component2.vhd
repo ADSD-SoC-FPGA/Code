@@ -77,7 +77,7 @@ begin
     ROM_inst : ROM PORT MAP (
         address	 => my_rom_address,
         clock	 => my_clk,
-        q	     => rom_value);
+        q        => rom_value);
 
     my_rom_value <= rom_value;  -- send the ROM value directly out of component
 
