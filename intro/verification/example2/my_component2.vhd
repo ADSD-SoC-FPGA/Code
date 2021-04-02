@@ -1,6 +1,7 @@
 ---------------------------------------------------------------------------
--- Description:  VHDL file with Quartus ROM IP, computation, and delay 
---               to illustrate verification process
+-- Description:  VHDL file with Quartus ROM IP, computation, and delay
+--               using generate statements to illustrate the
+--               verification process
 ---------------------------------------------------------------------------
 -- This file is used in the book: Advanced Digital System Design using 
 -- System-on-Chip Field Programmable Gate Arrays
@@ -29,7 +30,7 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
 entity my_component2 is
-    generic (
+	generic (
         MY_ROM_A_W    : natural;   -- Width of ROM Address bus 
         MY_ROM_Q_W    : natural;   -- Width of ROM output 
         MY_ROM_Q_F    : natural;   -- Number of fractional bits in ROM output 
@@ -62,13 +63,9 @@ architecture my_architecture of my_component2 is
     signal my_input_delayed_1 : std_logic_vector(MY_WORD_W-1 downto 0);
     signal my_input_delayed_2 : std_logic_vector(MY_WORD_W-1 downto 0);
     signal rom_value          : std_logic_vector(MY_ROM_Q_W-1 downto 0);
-    signal my_product         : std_logic_vector(MY_WORD_W+MY_ROM_Q_W-1 downto 0);
-    signal my_product_trimmed : std_logic_vector(MY_WORD_W-1 downto 0);
+	signal my_product         : std_logic_vector(MY_WORD_W+MY_ROM_Q_W-1 downto 0);
+	signal my_product_trimmed : std_logic_vector(MY_WORD_W-1 downto 0);
 
-    -- delay array
-    type my_delay_array is array (natural range <>) of std_logic_vector(MY_WORD_W-1 downto 0);
-    signal delay_vector : my_delay_array(MY_DELAY-2 downto 0);
-				  
 begin
  
     ------------------------------------------------
@@ -77,7 +74,7 @@ begin
     ROM_inst : ROM PORT MAP (
         address	 => my_rom_address,
         clock	 => my_clk,
-        q        => rom_value);
+        q	     => rom_value);
 
     my_rom_value <= rom_value;  -- send the ROM value directly out of component
 
@@ -96,28 +93,55 @@ begin
 
     my_product_trimmed <= my_product(MY_WORD_W + MY_ROM_Q_F - 1 downto MY_ROM_Q_F);  -- keep the output with the same W & F as the input.
 
-    ------------------------------------------------
-    -- Delay the trimmed product by MY_DELAY
-    ------------------------------------------------ 
-    my_delay_process : process(my_clk)
-    begin
-        if MY_DELAY = 0
-            my_output <= my_product_trimmed;  
-        elsif rising_edge(my_clk) then
-            if MY_DELAY = 1
+    ------------------------------------------------------
+    -- Delay the my_product_trimmed signal by MY_DELAY
+    -- using generate statements
+    ------------------------------------------------------ 
+    -- delay = 0
+    gen_z0 : if MY_DELAY = 0 generate
+        my_output <= my_product_trimmed; 
+    end generate;
+
+    -- delay = 1
+    gen_z1 : if MY_DELAY = 1 generate
+        my_delay_process : process(my_clk)
+        begin
+            if rising_edge(my_clk) then
                 my_output <= my_product_trimmed;
-            elsif MY_DELAY = 2
-                delay_vector(0) <= my_product_trimmed;
-                my_output <= delay_vector(0);
-            elsif MY_DELAY >= 3
+            end if;
+        end process;
+    end generate;
+
+    -- delay = 2
+    gen_z2 : if MY_DELAY = 2 generate
+        signal my_output_delayed : std_logic_vector(MY_WORD_W-1 downto 0);
+    begin
+        my_delay_process : process(my_clk)
+        begin
+            if rising_edge(my_clk) then
+                my_output_delayed <= my_product_trimmed;
+                my_output         <= my_output_delayed;
+            end if;
+        end process;
+    end generate;
+
+    -- delay > 2
+    gen_zg2 : if MY_DELAY > 2 generate
+        -- delay array
+        type my_delay_array is array (natural range <>) of std_logic_vector(MY_WORD_W-1 downto 0);
+        signal delay_vector : my_delay_array(MY_DELAY-2 downto 0);
+    begin
+        my_delay_process : process(my_clk)
+        begin
+            if rising_edge(my_clk) then
                 delay_vector(0) <= my_product_trimmed;
                 for i in 0 to MY_DELAY-3 loop
                     delay_vector(i+1) <= delay_vector(i);
                 end loop;
-                my_output <=  <= delay_vector(MY_DELAY-2);
+                my_output <= delay_vector(MY_DELAY-2);
             end if;
-        end if;
-    end process;
+        end process;
+    end generate;
 
 end my_architecture;
 
