@@ -33,22 +33,22 @@ entity my_component2 is
         MY_ROM_A_W    : natural;   -- Width of ROM Address bus 
         MY_ROM_Q_W    : natural;   -- Width of ROM output 
         MY_ROM_Q_F    : natural;   -- Number of fractional bits in ROM output 
-		MY_WORD_W     : natural;   -- Width of input signal
+        MY_WORD_W     : natural;   -- Width of input signal
         MY_WORD_F     : natural;   -- Number of fractional bits in input signal
-		MY_DELAY      : natural);  -- The amount to delay the product before sending out of component
+        MY_DELAY      : natural);  -- The amount to delay the product before sending out of component
 	port (
-		my_clk         : in  std_logic;
+        my_clk         : in  std_logic;
         my_rom_address : in  std_logic_vector(MY_ROM_A_W-1 downto 0);
-		my_input       : in  std_logic_vector(MY_WORD_W-1  downto 0);
+        my_input       : in  std_logic_vector(MY_WORD_W-1  downto 0);
         my_rom_value   : out std_logic_vector(MY_ROM_Q_W-1 downto 0);
-		my_output      : out std_logic_vector(MY_WORD_W-1  downto 0));
+        my_output      : out std_logic_vector(MY_WORD_W-1  downto 0));
 end my_component2;
 
 architecture my_architecture of my_component2 is
 
-	-----------------------------------------------
-	-- Declarations
-	-----------------------------------------------
+    -----------------------------------------------
+    -- Declarations
+    -----------------------------------------------
     component ROM
         PORT (
             address	: IN STD_LOGIC_VECTOR (7 DOWNTO 0);
@@ -56,9 +56,9 @@ architecture my_architecture of my_component2 is
             q		: OUT STD_LOGIC_VECTOR (7 DOWNTO 0));
     end component;
 
-	-----------------------------------------------
-	-- Internal Signals
-	-----------------------------------------------
+    -----------------------------------------------
+    -- Internal Signals
+    -----------------------------------------------
     signal my_input_delayed_1 : std_logic_vector(MY_WORD_W-1 downto 0);
     signal my_input_delayed_2 : std_logic_vector(MY_WORD_W-1 downto 0);
     signal rom_value          : std_logic_vector(MY_ROM_Q_W-1 downto 0);
@@ -71,38 +71,38 @@ architecture my_architecture of my_component2 is
 begin
  
     ------------------------------------------------
-	-- Instantiate ROM
-	------------------------------------------------ 
+    -- Instantiate ROM
+    ------------------------------------------------ 
     ROM_inst : ROM PORT MAP (
-		address	 => my_rom_address,
-		clock	 => my_clk,
-		q	     => rom_value);
+        address	 => my_rom_address,
+        clock	 => my_clk,
+        q	     => rom_value);
 
     my_rom_value <= rom_value;  -- send the ROM value directly out of component
 
     ----------------------------------------------------------------
-	-- Computation (multiplication) after aligning the input signal
+    -- Computation (multiplication) after aligning the input signal
     -- so that it aligns with the two clock cycle ROM latency
-	---------------------------------------------------------------- 
-	my_process : process(my_clk)
-	begin
-		if rising_edge(my_clk) then
+    ---------------------------------------------------------------- 
+    my_process : process(my_clk)
+    begin
+        if rising_edge(my_clk) then
             my_input_delayed_1 <= my_input;
             my_input_delayed_2 <= my_input_delayed_1;
-			my_product         <= my_input_delayed_2 * rom_value;  
-		end if;
-	end process;
+            my_product         <= my_input_delayed_2 * rom_value;  
+        end if;
+    end process;
 
-	my_product_trimmed <= my_product(MY_WORD_W + MY_ROM_Q_F - 1 downto MY_ROM_Q_F);  -- keep the output with the same W & F as the input.
+    my_product_trimmed <= my_product(MY_WORD_W + MY_ROM_Q_F - 1 downto MY_ROM_Q_F);  -- keep the output with the same W & F as the input.
 
     ------------------------------------------------
-	-- Delay the trimmed product by MY_DELAY
-	------------------------------------------------ 
-	my_delay_process : process(my_clk)
-	begin
+    -- Delay the trimmed product by MY_DELAY
+    ------------------------------------------------ 
+    my_delay_process : process(my_clk)
+    begin
         if MY_DELAY = 0
-            my_output <= my_product_trimmed;
-		elsif rising_edge(my_clk) then
+            my_output <= my_product_trimmed;  
+        elsif rising_edge(my_clk) then
             if MY_DELAY = 1
                 my_output <= my_product_trimmed;
             elsif MY_DELAY = 2
@@ -115,7 +115,10 @@ begin
                 end loop;
                 my_output <=  <= delay_vector(MY_DELAY-2);
             end if;
-		end if;
-	end process;
+        end if;
+    end process;
 
-end my_architecture; 
+end my_architecture;
+
+
+
