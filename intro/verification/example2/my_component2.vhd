@@ -118,4 +118,4 @@ begin
 		end if;
 	end process;
 
-end my_architecture;
+end my_architecture; 
