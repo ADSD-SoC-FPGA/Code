@@ -30,7 +30,7 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
 entity my_component2 is
-	generic (
+    generic (
         MY_ROM_A_W    : natural;   -- Width of ROM Address bus 
         MY_ROM_Q_W    : natural;   -- Width of ROM output 
         MY_ROM_Q_F    : natural;   -- Number of fractional bits in ROM output 
