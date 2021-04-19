@@ -1,6 +1,6 @@
 %-------------------------------------------------------------------------
 % Description:  Matlab function that computes the same result as
-%               my_component1.vhd
+%               my_component2.vhd
 %--------------------------------------------------------------------------
 % This file is used in the book: Advanced Digital System Design using 
 % System-on-Chip Field Programmable Gate Arrays
