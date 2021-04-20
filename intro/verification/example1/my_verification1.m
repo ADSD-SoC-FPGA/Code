@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------------
 % Description:  Matlab script that performs verification on 
-%               my_component.vhd after it has been simulated using ModelSim
-%               running my_component_tb.vhd and where simulation results
+%               my_component1.vhd after it has been simulated using ModelSim
+%               running my_component1_tb.vhd and where simulation results
 %               have been written to output.txt
 %-------------------------------------------------------------------------
 % Author:       Ross K. Snider
