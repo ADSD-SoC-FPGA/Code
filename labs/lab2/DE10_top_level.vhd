@@ -1,23 +1,14 @@
-%--------------------------------------------------------------------------
-% Description:  Top level VHDL file for the DE10-Nano
-%--------------------------------------------------------------------------
-% Author:       Ross K. Snider
-% Company:      Montana State University
-% Create Date:  September 1, 2017
-% Revision:     1.0
-%--------------------------------------------------------------------------
-% Copyright (c) 2017 Ross K. Snider.
-% All rights reserved. Redistribution and use in source and binary forms 
-% are permitted provided that the above copyright notice and this paragraph 
-% are duplicated in all such forms and that any documentation, advertising 
-% materials, and other materials related to such distribution and use 
-% acknowledge that the software was developed by Montana State University 
-% (MSU).  The name of MSU may not be used to endorse or promote products 
-% derived from this software without specific prior written permission.
-% THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
-% IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
-% WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. 
-%--------------------------------------------------------------------------
+-- SPDX-License-Identifier: MIT
+-- Copyright (c) 2017 Ross K. Snider.  All rights reserved.
+----------------------------------------------------------------------------
+-- Description:  Top level VHDL file for the DE10-Nano
+----------------------------------------------------------------------------
+-- Author:       Ross K. Snider
+-- Company:      Montana State University
+-- Create Date:  September 1, 2017
+-- Revision:     1.0
+-- License: MIT  (opensource.org/licenses/MIT)
+----------------------------------------------------------------------------
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -26,7 +17,6 @@ use IEEE.std_logic_unsigned.all;
 
 LIBRARY altera;
 USE altera.altera_primitives_components.all;
-
 
 -----------------------------------------------------------
 -- Signal Names are defined in the DE10-Nano User Manual
