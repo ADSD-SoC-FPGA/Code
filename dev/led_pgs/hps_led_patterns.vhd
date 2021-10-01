@@ -17,12 +17,12 @@ entity HPS_LED_patterns is
     port(
         clk              : in  std_logic;                     -- system clock
         reset            : in  std_logic;                     -- system reset (assume active high, change at top level if needed)
- 		    avs_s1_read	     : in  std_logic;                     -- Avalon read control signal
-		    avs_s1_write 	   : in  std_logic;                     -- Avalon write control signal
-		    avs_s1_address 	 : in  std_logic_vector(1 downto 0);  -- Avalon address;  Note: width determines the number of registers created by Platform Designer
-		    avs_s1_readdata	 : out std_logic_vector(31 downto 0); -- Avalon read data bus 
-		    avs_s1_writedata : in  std_logic_vector(31 downto 0); -- Avalon write data bus 
-		    PB               : in  std_logic;                     -- Pushbutton to change state (assume active high, change at top level if needed)  (export in Platform Designer)
+        avs_s1_read	 : in  std_logic;                     -- Avalon read control signal
+        avs_s1_write 	 : in  std_logic;                     -- Avalon write control signal
+        avs_s1_address 	 : in  std_logic_vector(1 downto 0);  -- Avalon address;  Note: width determines the number of registers created by Platform Designer
+        avs_s1_readdata	 : out std_logic_vector(31 downto 0); -- Avalon read data bus 
+        avs_s1_writedata : in  std_logic_vector(31 downto 0); -- Avalon write data bus 
+        PB               : in  std_logic;                     -- Pushbutton to change state (assume active high, change at top level if needed)  (export in Platform Designer)
         SW               : in  std_logic_vector(3 downto 0);  -- Switches that determine the next state to be selected  (export in Platform Designer)
         LED              : out std_logic_vector(7 downto 0)   -- LEDs on the DE10-Nano board (export in Platform Designer)
     );
