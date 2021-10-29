@@ -1,15 +1,27 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2018 Trevor Vannoy.  All rights reserved.
-#---------------------------------------------------------------------------
-# Description:  Cross Compiling for ARM and x86
-#               
-#---------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+# Description:  Makefile for Cross Compiling for both ARM and x86 Architectures
+#               Running make creates two subdirectories: /exec (for the executables) 
+#                                                    and /build (for the object files)
+#               Under each of these there are two additional subdirectories created:
+#               /arm and /x86 for the architecture specific files.
+#---------------------------------------------------------------------------------
 # Author:       Trevor Vannoy
 # Company:      Montana State University
 # Create Date:  March 22, 2019
 # Revision:     1.0
 # License: MIT  (opensource.org/licenses/MIT)
-#---------------------------------------------------------------------------
+#---------------------------------------------------------------------------------
+# Usage: Step 1: Export the cross compilation variables:
+#                ARCH=arm and CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
+#                This can be done with the associated script: source_env.sh
+#                command: source arm_env.sh or . arm_env.sh
+#
+#	 Step 2: In line 26, add the name of the program (e.g. EXEC=hello)
+#                In line 29, add the source file(s) (e.g. SRCS=hello.c)
+#
+
 # name of the executable
 EXEC=
 
