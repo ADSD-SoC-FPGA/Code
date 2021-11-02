@@ -1,0 +1,47 @@
+#include "socfpga_cyclone5_de0_nano_soc.dtsi"
+
+/{
+    leds {
+        compatible = "gpio-leds";
+        hps0 {
+            color = <0>;
+            function = "heartbeat";
+            gpios = <&portb 24 0>;
+            linux,default-trigger = "timer";
+            led-pattern = <500 250>;
+        };
+        audiomini0 {
+            gpios = <&audiomini_led_controller 0 0>;
+            linux,default-trigger = "cpu";
+        };
+        audiomini1 {
+            gpios = <&audiomini_led_controller 1 0>;
+            linux,default-trigger = "timer";
+            led-pattern = <1000 1000>;
+        };
+        audiomini2 {
+            gpios = <&audiomini_led_controller 2 0>;
+            default-state = "on";
+        };
+        audiomini3 {
+            gpios = <&audiomini_led_controller 3 0>;
+            default-state = "off";
+        };
+    };
+
+    /************************************************************/
+    /* Add your device tree node                                */
+    /* for your Platform Designer component here                */
+    /* Example node for custom component:                       */
+    /************************************************************/
+    /* 	my_label: platform_designer_name@component_address {    */
+    /*      compatible = "my_initials,platform_designer_name";  */
+    /*      reg = <component_address length>;                   */
+    /*  };                                                      */
+    /************************************************************/
+
+};
+
+&spi0 {
+    status = "okay";
+};
