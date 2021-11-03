@@ -1,46 +1,10 @@
-#include "socfpga_cyclone5_de0_nano_soc.dtsi"
+#include "socfpga_cyclone5_de0.dtsi"
 
 /{
-    leds {
-        compatible = "gpio-leds";
-        hps0 {
-            color = <0>;
-            function = "heartbeat";
-            gpios = <&portb 24 0>;
-            linux,default-trigger = "timer";
-            led-pattern = <500 250>;
-        };
-        audiomini0 {
-            gpios = <&audiomini_led_controller 0 0>;
-            linux,default-trigger = "cpu";
-        };
-        audiomini1 {
-            gpios = <&audiomini_led_controller 1 0>;
-            linux,default-trigger = "timer";
-            led-pattern = <1000 1000>;
-        };
-        audiomini2 {
-            gpios = <&audiomini_led_controller 2 0>;
-            default-state = "on";
-        };
-        audiomini3 {
-            gpios = <&audiomini_led_controller 3 0>;
-            default-state = "off";
-        };
-    };
-
-    audiomini_led_controller: gpio@ff200030 {
-        compatible = "altr,pio-1.0";
-        reg = <0xff200030 0x10>;
-        altr,ngpio = <4>;
-        #gpio-cells = <2>;
-        gpio-controller;
-    };
-
     /************************************************************/
     /* Add your device tree node                                */
     /* for your Platform Designer component here                */
-    /* Example node for custom component:                       */
+    /* Example node with naming convention:                     */
     /************************************************************/
     /* 	my_label: platform_designer_name@component_address {    */
     /*      compatible = "my_initials,platform_designer_name";  */
@@ -48,8 +12,14 @@
     /*  };                                                      */
     /************************************************************/
 
+    my_hardware: my_component@ff200020 {    
+	    compatible = "rks,my_component";  
+	    reg = <0xff200020 0x10>; 
+    };
+
 };
 
 &spi0 {
     status = "okay";
 };
+
