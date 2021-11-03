@@ -29,13 +29,13 @@
         };
     };
 
-	audiomini_led_controller: gpio@ff200030 {
-		compatible = "altr,pio-1.0";
-		reg = <0xff200030 0x10>;
-		altr,ngpio = <4>;
-		#gpio-cells = <2>;
-		gpio-controller;
-	};
+    audiomini_led_controller: gpio@ff200030 {
+        compatible = "altr,pio-1.0";
+        reg = <0xff200030 0x10>;
+        altr,ngpio = <4>;
+        #gpio-cells = <2>;
+        gpio-controller;
+    };
 
     /************************************************************/
     /* Add your device tree node                                */
