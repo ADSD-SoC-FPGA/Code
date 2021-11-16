@@ -12,9 +12,9 @@
     /*  };                                                      */
     /************************************************************/
 
-    my_hardware: my_component@ff200020 {    
+    my_hardware: my_component@ff204100 {    
 	    compatible = "rks,my_component";  
-	    reg = <0xff200020 0x10>; 
+	    reg = <0xff204100 0x10>; 
     };
 
 };
