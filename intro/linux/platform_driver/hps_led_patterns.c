@@ -28,8 +28,8 @@
 /* Define the Component Register Offsets*/
 #define REG0_HPS_LED_CONTROL_OFFSET 0x0
 /* #define REG1 (Add offset for SYS_CLKs_sec) */
-/* #define REG2 (Add offset for Base_rate) */
-#define REG3_LED_REG_OFFSET 0x0C
+#define REG2_LED_REG_OFFSET 0x08
+/* #define REG3 (Add offset for Base_rate) */
 
 /* Memory span of all registers (used or not) in the                     */
 /* component hps_led_patterns                                            */
