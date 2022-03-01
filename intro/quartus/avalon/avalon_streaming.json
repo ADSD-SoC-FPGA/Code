@@ -1,0 +1,8 @@
+{signal: [
+  {name: 'clk',     wave: 'p.....|......|......|.'},
+  {name: 'valid',   wave: 'l.h.l.|..h.l.|..h.l.|.'},
+  {name: 'channel', wave: 'x.54x.|..54x.|..54x.|.', data: ['Left','Right','Left','Right','Left','Right']},
+  {name: 'data',    wave: 'x.54x.|..54x.|..54x.|.', data: ['L0','R0','L1','R1','L2','R2']},
+],
+  head:{text: 'Avalon Streaming Data-Channel-Valid Protocol for Stereo Audio'}
+}
