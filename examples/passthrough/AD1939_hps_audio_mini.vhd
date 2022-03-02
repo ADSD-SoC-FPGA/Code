@@ -57,11 +57,11 @@ entity ad1939_hps_audio_mini is
     port (
         sys_clk   : in    std_logic; -- fpga system fabric clock  (note: sys_clk is assumed to be faster and synchronous to the ad1939 sample rate clock and bit clock, typically one generates sys_clk using a pll that is n * ad1939_adc_alrclk)
         sys_reset : in    std_logic; -- fpga system fabric reset
-        -------------------------------------------------------------------------------------------------------------------------------------
+        -------------------------------------------------------------------
         -- ad1939 physical layer : signals to/from ad1939 serial data port (from adcs/to dacs), i.e. connection to physical pins on ad1939
         -- Note: asdata1 from adc and dsdata2, dsdata3, dsdata4 to dac are not used since these are not present on the audio mini board.
         --       ad1939 register control is connected via the ad1939 spi control port and controlled with the hps spi, so no control port in this component.
-        -------------------------------------------------------------------------------------------------------------------------------------
+        -------------------------------------------------------------------
         -- physical signals from adc (serial data)
         ad1939_adc_asdata2 : in    std_logic; -- serial data from ad1939 pin 26 asdata2, adc2 24-bit normal stereo serial mode
         ad1939_adc_abclk   : in    std_logic; -- bit clock from adc (master mode) from pin 28 abclk on ad1939;  note: bit clock = 64 * fs, fs = sample rate
@@ -70,14 +70,14 @@ entity ad1939_hps_audio_mini is
         ad1939_dac_dsdata1 : out   std_logic; -- serial data to ad1939 pin 20 dsdata1, dac1 24-bit normal stereo serial mode
         ad1939_dac_dbclk   : out   std_logic; -- bit clock for dac (slave mode) to pin 21 dbclk on ad1939
         ad1939_dac_dlrclk  : out   std_logic; -- left/right framing clock for dac (slave mode) to pin 22 dlrclk on ad1939
-        -----------------------------------------------------------------------------------------------------------
+        -------------------------------------------------------------------
         -- Abstracted data channels, i.e. interface to the data plane as 24-bit data words.
         -- this is setup as a two channel avalon streaming interface
         -- See table 17, page 41, of Intel's Avalon streaming interface specifications
         -- https://www.altera.com/content/dam/altera-www/global/en_us/pdfs/literature/manual/mnl_avalon_spec.pdf
         -- Data is being clocked out at the sys_clk rate and valid is asserted only when data is present.  Left and right channels are specified as channel number (0 or 1)
         -- Data is converted to a w=24 (word length in bits), f=23 (number of fractional bits) before being sent out.
-        -----------------------------------------------------------------------------------------------------------
+        -------------------------------------------------------------------
         -- avalon streaming interface from adc to fabric
         ad1939_adc_data    : out   std_logic_vector(23  downto 0); -- w=24; f=23; signed 2's complement
         ad1939_adc_channel : out   std_logic;                      -- left <-> channel 0;  right <-> channel 1
