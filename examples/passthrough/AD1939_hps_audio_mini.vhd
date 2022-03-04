@@ -274,7 +274,7 @@ begin
         port map (
             clock    => ad1939_adc_abclk,
             data     => dac1_data_left,
-            load     => ad1939_adc_alrclk,
+            load     => ad1939_adc_alrclk,  -- High (1): load operation; low (0): shift operation.
             shiftout => ad1939_dac_dsdata1_left
         );
 
@@ -285,7 +285,7 @@ begin
         port map (
             clock    => ad1939_adc_abclk,
             data     => dac1_data_right,
-            load     => not ad1939_adc_alrclk,
+            load     => not ad1939_adc_alrclk,  -- High (1): load operation; low (0): shift operation.
             shiftout => ad1939_dac_dsdata1_right
         );
 
