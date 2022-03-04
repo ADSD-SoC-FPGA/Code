@@ -95,7 +95,7 @@ architecture behavioral of ad1939_hps_audio_mini is
     -- Generated using Quartus' megafunction wizard  
     -- Found in IP Library\Basic Functions\Miscellaneous\LPM_SHIFTREG
     -----------------------------------------------------------------------
-    component serial2parallel_32bits is
+    component Serial2Parallel_32bits is
         port (
             clock   : in    std_logic;
             shiftin : in    std_logic;
@@ -108,7 +108,7 @@ architecture behavioral of ad1939_hps_audio_mini is
     -- Generated using Quartus' megafunction wizard  
     -- Found in IP Library\Basic Functions\Miscellaneous\LPM_SHIFTREG
     -----------------------------------------------------------------------
-    component parallel2serial_32bits is
+    component Parallel2Serial_32bits is
         port (
             clock    : in    std_logic;
             data     : in    std_logic_vector(31 downto 0);
@@ -148,7 +148,7 @@ begin
     -----------------------------------------------------------------------
     -- convert serial data stream to parallel
     -----------------------------------------------------------------------
-    s2p_adc2 : serial2parallel_32bits
+    s2p_adc2 : Serial2Parallel_32bits
         port map (
             clock   => ad1939_adc_abclk,
             shiftin => ad1939_adc_asdata2,
@@ -175,7 +175,7 @@ begin
                 -- left
                 ---------------------------------------------
                 when state_left_wait =>
-                    if (ad1939_adc_alrclk = '0') then   -- capture left data when alrck goes low
+                    if (ad1939_adc_alrclk = '1') then   -- The 32-bit shift register is full of left data when alrck goes high
                         state <= state_left_capture;
                     else
                         state <= state_left_wait;
@@ -188,15 +188,15 @@ begin
                 -- right
                 ---------------------------------------------
                 when state_right_wait =>
-                    if (ad1939_adc_alrclk = '1') then   -- capture right data when alrck goes high
+                    if (ad1939_adc_alrclk = '0') then   -- The 32-bit shift register is full of right data when alrck goes low
                         state <= state_right_capture;
                     else
                         state <= state_right_wait;
                     end if;
                 when state_right_capture =>             -- state to capture data
                     state <= state_right_valid;
-                when state_right_valid =>
-                    state <= state_left_wait;           -- state to generate valid signal
+                when state_right_valid =>               -- state to generate valid signal
+                    state <= state_left_wait;          
                 ---------------------------------------------
                 -- catch all
                 ---------------------------------------------
@@ -270,7 +270,7 @@ begin
     -------------------------------------------------------------
     -- dac1 left
     -------------------------------------------------------------
-     p2s_dac1_left : parallel2serial_32bits
+     p2s_dac1_left : Parallel2Serial_32bits
         port map (
             clock    => ad1939_adc_abclk,
             data     => dac1_data_left,
