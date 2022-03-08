@@ -51,8 +51,6 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.ad1939.all;
-
 ---------------------------------------------------------------------------
 -- ad1939 physical layer : signals to/from ad1939 serial data port (from adcs/to dacs), i.e. connection to physical pins on ad1939
 -- Note: asdata1 from adc and dsdata2, dsdata3, dsdata4 to dac are not used since these are not present on the audio mini board.
