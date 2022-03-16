@@ -1,0 +1,136 @@
+# VHDL style guide rules
+# Authors: Trevor Vannoy, Ross Snider
+# SPDX-License-Identifier: MIT
+
+name : adsd_vhdl_style
+
+rule :
+  global:
+    indentSize: 2
+
+  # Make everything lowercase
+  group:
+    case::keyword:
+      case: 'lower'
+    case::label:
+      case: 'lower'
+    case::name:
+      case: 'lower'
+
+    # Enforce all code structure rules, e.g. require "end architecture architecture_name", etc.
+    structure:
+      action: add
+
+  # Set (soft) maximum line length to 80 characters
+  length_001:
+    length: 80
+  
+  # Only let us declare one signal per line
+  signal_015 :
+     consecutive : 1
+
+  # Set alignment rules
+  architecture_026 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+  architecture_027 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+  component_017 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+  concurrent_008 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+  entity_017 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+  entity_018 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+  entity_020 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+    seperate_generic_port_alignment : true
+  process_034 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+  process_035 :
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+    include_lines_without_comments : false
+  process_400:
+    compact_alignment : true
+    blank_line_ends_group : true
+    comment_line_ends_group : false
+
+  # Remove default port assignments
+  port_012:
+    fixable: true
+
+  # Force closing parentheses to be on a new line
+  port_map_004:
+    action: 'new_line'
+  generic_map_004:
+    action: 'new_line'
+  port_014:
+    action: 'new_line'
+  generic_010:
+    action: 'new_line'
+
+  # Don't indent the use clause after the library clause
+  library_008:
+    indentSize: 0
+    
+  # Allow comments above entity, etc. without a blank line
+  entity_003:
+    style: 'allow_comment'
+  function_006:
+    style: 'allow_comment'
+  generate_004:
+    style: 'allow_comment'
+  architecture_003:
+    style: 'allow_comment'
+  library_003:
+    style: 'allow_comment'
+
+  # Don't require blank line after "when =>" in case statements
+  case_200 :
+    disable: True
+  
+  # Don't require blank lines after the "loop" statement
+  loop_statement_201:
+    disable: true
+
+  # Don't require a blank line before the loop end
+  loop_statement_202:
+    disable: true
+
+  # Allow entity/direct instantiation
+  instantiation_034:
+    disable: true
+  
+  # Allow default signal assignments
+  signal_007:
+    disable: true
+
+  # Use rising_edge() style
+  process_029:
+    clock: 'edge'
+  
+  # Don't force parentheses in if statement conditionals
+  if_002:
+    disable: true
+  
+  # Allow default variable assignments
+  variable_007:
+    disable: true
