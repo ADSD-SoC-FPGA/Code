@@ -6,9 +6,9 @@
 -- An Integrated Hardware/Software Approach
 -- by Ross K. Snider
 ---------------------------------------------------------------------------
--- Author:           Ross K. Snider
+-- Authors:          Ross K. Snider, Trevor Vannoy
 -- Company:          Audio Logic
--- Create Date:      October 26, 2018
+-- Create Date:      October 26, 2018; Updated 3/16/2022
 -- Revision:         1.0
 -- License: MIT      (opensource.org/licenses/MIT)
 -- Target Device(s): Terasic D1E0-Nano Board
@@ -167,12 +167,14 @@ architecture behavioral of ad1939_hps_audio_mini is
   --------------------------------------------------------------
   -- Internal signals
   --------------------------------------------------------------
-  signal sregout_adc2             : std_logic_vector(31 downto 0);
-  signal adc2_data                : std_logic_vector(23 downto 0);
-  signal dac1_data_left           : std_logic_vector(31 downto 0);
-  signal dac1_data_right          : std_logic_vector(31 downto 0);
-  signal ad1939_dac_dsdata1_left  : std_logic;
-  signal ad1939_dac_dsdata1_right : std_logic;
+  signal sregout_adc2                     : std_logic_vector(31 downto 0);
+  signal adc2_data                        : std_logic_vector(23 downto 0);
+  signal dac1_data_left                   : std_logic_vector(31 downto 0);
+  signal dac1_data_right                  : std_logic_vector(31 downto 0);
+  signal ad1939_dac_dsdata1_left          : std_logic;
+  signal ad1939_dac_dsdata1_right         : std_logic;
+  signal ad1939_dac_dsdata1_left_delayed  : std_logic := '0';
+  signal ad1939_dac_dsdata1_right_delayed : std_logic := '0';
 
 begin
 
@@ -199,7 +201,7 @@ begin
   -- Get the 24-bits with a sdata delay of 1 (sdata delay set in adc
   -- control 1 register; see table 24 page 27 of ad1939 data sheet)
   -----------------------------------------------------------------------
-  adc2_data <= sregout_adc2(30 downto 7);
+  adc2_data <= sregout_adc2(29 downto 6);
 
   -------------------------------------------------------------------------
   -- State machine states to implement the Avalon Streaming Interface
@@ -367,18 +369,32 @@ begin
     );
 
   -------------------------------------------------------------------------
-  -- Interleave the left/right serial data that goes out to DAC1
+  -- Need a delay of one bit clock cycle
   -------------------------------------------------------------------------
-  dac_data : process (ad1939_adc_alrclk, ad1939_dac_dsdata1_left,
-                      ad1939_dac_dsdata1_right) is
+  delay_dsdata : process (ad1939_adc_abclk) is
   begin
 
-    if (ad1939_adc_alrclk = '0') then
-      ad1939_dac_dsdata1 <= ad1939_dac_dsdata1_left;
-    else
-      ad1939_dac_dsdata1 <= ad1939_dac_dsdata1_right;
+    if rising_edge(ad1939_adc_abclk) then
+      ad1939_dac_dsdata1_left_delayed  <= ad1939_dac_dsdata1_left;
+      ad1939_dac_dsdata1_right_delayed <= ad1939_dac_dsdata1_right;
     end if;
 
-  end process dac_data;
+  end process delay_dsdata;
+
+  -------------------------------------------------------------------------
+  -- interleave the left/right serial data that goes out to the dac
+  -------------------------------------------------------------------------
+  interleave : process (sys_clk) is
+  begin
+
+    if rising_edge(sys_clk) then
+      if (ad1939_adc_alrclk = '0') then
+        ad1939_dac_dsdata1 <= ad1939_dac_dsdata1_left_delayed;
+      else
+        ad1939_dac_dsdata1 <= ad1939_dac_dsdata1_right_delayed;
+      end if;
+    end if;
+
+  end process interleave;
 
 end architecture behavioral;
