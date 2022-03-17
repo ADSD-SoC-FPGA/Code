@@ -136,7 +136,7 @@ architecture behavioral of ad1939_hps_audio_mini is
       shiftin : in    std_logic;
       q       : out   std_logic_vector(31 downto 0)
     );
-  end component;
+  end component serial2parallel_32bits;
 
   -------------------------------------------------------------------------
   -- Intel/Altera component to convert parallel data to serial
@@ -150,7 +150,23 @@ architecture behavioral of ad1939_hps_audio_mini is
       load     : in    std_logic;
       shiftout : out   std_logic
     );
-  end component;
+  end component parallel2serial_32bits;
+
+  -------------------------------------------------------------------------
+  -- Component to delay signals
+  -- Used to delay BCLK and LRCLK going to DAC
+  -------------------------------------------------------------------------
+  component delay_signal is
+    generic (
+      signal_width : natural;
+      signal_delay : natural
+    );
+    port (
+      clk            : in    std_logic;
+      signal_input   : in    std_logic_vector(signal_width - 1  downto 0);
+      signal_delayed : out   std_logic_vector(signal_width - 1  downto 0)
+    );
+  end component delay_signal;
 
   -------------------------------------------------------------------------
   -- States to implement avalon streaming with the data-channel-valid protocol
@@ -177,15 +193,6 @@ architecture behavioral of ad1939_hps_audio_mini is
   signal ad1939_dac_dsdata1_right_delayed : std_logic := '0';
 
 begin
-
-  -------------------------------------------------------------------------
-  -- The master bit clock from adc drives the slave bit clock of DAC
-  -- The master framing lr clock from ADC drives the slave lr clock of DAC
-  -- The ADC is set as master for bclk and lrclk, which is set in
-  -- ADC control 2 register. See table 25 on page 28 of ad1939 data sheet.
-  -------------------------------------------------------------------------
-  ad1939_dac_dbclk  <= ad1939_adc_abclk;
-  ad1939_dac_dlrclk <= ad1939_adc_alrclk;
 
   -------------------------------------------------------------------------
   -- Convert serial data stream to parallel
@@ -396,5 +403,37 @@ begin
     end if;
 
   end process interleave;
+
+  -------------------------------------------------------------------------
+  -- The master bit clock from adc drives the slave bit clock of DAC
+  -- The master framing lr clock from ADC drives the slave lr clock of DAC
+  -- The ADC is set as master for bclk and lrclk, which is set in
+  -- ADC control 2 register. See table 25 on page 28 of ad1939 data sheet.
+  -- Delay the DAC BCLK and LRCLK to allow for the data register latency
+  -- and provide some setup time.
+  -------------------------------------------------------------------------
+  -- ad1939_dac_dbclk  <= ad1939_adc_abclk;
+  delay_dac_bclk : component delay_signal
+    generic map (
+      signal_width => 1,
+      signal_delay => 8
+    )
+    port map (
+      clk               => sys_clk,
+      signal_input(0)   => ad1939_adc_abclk,
+      signal_delayed(0) => ad1939_dac_dbclk
+    );
+
+  -- ad1939_dac_dlrclk <= ad1939_adc_alrclk;
+  delay_dac_lrclk : component delay_signal
+    generic map (
+      signal_width => 1,
+      signal_delay => 8
+    )
+    port map (
+      clk               => sys_clk,
+      signal_input(0)   => ad1939_adc_alrclk,
+      signal_delayed(0) => ad1939_dac_dlrclk
+    );
 
 end architecture behavioral;
