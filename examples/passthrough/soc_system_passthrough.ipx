@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <!--Note: Quartus will find any .ipx file in its project directory                                                                             -->
+    <!--      This allows relative search paths to be used by Platform Designer (you can't specify relative paths from within Platform Designer)   -->
+    <!--      The IP search path is relative to the Quartus project directory                                                                      -->
+    <!--      The end portion of the search path, i.e. /**/*, means the following:                                                                 -->
+    <!--      ** means perform a recursive descent,  * means find any IP file while performing the recursive descent.                              -->
+    <!--      When the search is recursive, the search stops at any directory that contains a _hw.tcl or .ipx file.                                -->
+    <!--      https://www.altera.com/documentation/zcn1513987282935.html#mwh1409958678312                                                          -->
+    <path path="../../ip/subsystems/**/*" />
+    <path path="../../ip/ad1939/**/*" />
+</library>
