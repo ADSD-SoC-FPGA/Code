@@ -42,6 +42,3 @@ modelParams.wetDryMix.fractionLength = 16;
 modelParams.wetDryMix.signed         = false; 
 
 modelParams.dpramAddressSize = 16;
-
-
-mod

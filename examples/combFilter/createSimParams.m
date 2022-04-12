@@ -16,23 +16,23 @@ function simParams = createSimParams(modelParams)
 % Audio file for simulation
 %--------------------------------------------------------------------------
 audioFile = 'Single Notes Clean Mono.wav'; % path/to/audio/file';
-[audio, fileSampleRate] = audioread(audioFile);
-simParams.testSignal = resample(audio, modelParams.audio.sampleFrequency, fileSampleRate);
-simParams.testSignal = fi(simParams.testSignal, modelParams.audio.signed, ...
-    modelParams.audio.wordLength, modelParams.audio.fractionLength);
-%plot(simParams.testSignal)
+
+simParams.testSignal = AudioSource.fromFile(audioFile, modelParams.audio.sampleFrequency);
+
+simParams.fxptAudio = simParams.testSignal.toFixedPoint(modelParams.audio.signed, modelParams.audio.wordLength, ...
+    modelParams.audio.fractionLength);
 
 %--------------------------------------------------------------------------
 % Simulation Parameters
 %--------------------------------------------------------------------------
 simParams.verifySimulation = false;  
-simParams.playOutput       = false;
-simParams.stopTime         = 0.15; % seconds
+simParams.playOutput       = true;
+simParams.stopTime         = 5; % seconds
 
 %--------------------------------------------------------------------------
 % Model Parameters for simulation
 %--------------------------------------------------------------------------
-delayM = 48000;  % set value and data type from model parameters
+delayM = 24000;  % set value and data type from model parameters
 simParams.delayM = fi(delayM,modelParams.delayM.signed, ...
     modelParams.delayM.wordLength, modelParams.delayM.fractionLength);
 
