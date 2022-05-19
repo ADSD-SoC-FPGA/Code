@@ -15,12 +15,11 @@ function simParams = createSimParams(modelParams)
 %--------------------------------------------------------------------------
 % Audio file for simulation
 %--------------------------------------------------------------------------
-audioFile = 'Single Notes Clean Mono.wav'; % path/to/audio/file';
-
-simParams.testSignal = AudioSource.fromFile(audioFile, modelParams.audio.sampleFrequency);
-
-simParams.fxptAudio = simParams.testSignal.toFixedPoint(modelParams.audio.signed, modelParams.audio.wordLength, ...
-    modelParams.audio.fractionLength);
+filename = 'bluesSampleCleanShort.wav';
+desiredFs = modelParams.audio.sampleFrequency;  % desired sample rate
+desiredCh = 'left';  % desired channel
+desiredNt = numerictype(1,modelParams.audio.wordLength,modelParams.audio.fractionLength);  % desired data type
+simParams.audioIn = getAudio(filename, desiredFs, desiredCh, desiredNt);
 
 %--------------------------------------------------------------------------
 % Simulation Parameters
