@@ -26,7 +26,7 @@ FPGA_clock_frequency = 98304000;  % Clock frequency in Hz
 %--------------------------------------------------------------------------
 oversampling = FPGA_clock_frequency/modelParams.audio.sampleFrequency;
 if mod(oversampling,1) == 0  % check if it is an integer
-    hdlParams.clock_oversampling_factor = oversampling;
+    hdlParams.clockOversamplingFactor = oversampling;
 else
     % Note the Simulink Diagnostic Viewer doesn't provide the stack trace
     % so we need to provide the location where this error is coming from
@@ -39,7 +39,8 @@ end
 % Located at \HDL Code Generation\Global Settings\Clock settings
 % Note: we can't use a variable name so we have to explicitly
 % set it with hdlset_param().
-hdlset_param(gcs,'Oversampling',hdlParams.clock_oversampling_factor)
+hdlset_param(gcs,'Oversampling',hdlParams.clockOversamplingFactor)
+
 
 
 
