@@ -1,10 +1,15 @@
-% verifySimulation
-%
-% Verify the model's output
-
 % SPDX-License-Identifier: MIT
-% Copyright 2022 Ross Snider
-
+% Copyright (c) 2022 Ross K. Snider  All rights reserved.
+%--------------------------------------------------------------------------
+% Description:  Matlab Function to verify the FFTAnalysisSynthesis
+%               Simulink model. 
+%--------------------------------------------------------------------------
+% Authors:      Ross K. Snider
+% Company:      Montana State University
+% Create Date:  April 5, 2022
+% Revision:     1.0
+% License: MIT  (opensource.org/licenses/MIT)
+%--------------------------------------------------------------------------
 
 %--------------------------------------------------------------------------
 % Verification method depends on the input signal

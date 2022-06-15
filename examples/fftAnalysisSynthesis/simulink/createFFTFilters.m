@@ -1,3 +1,15 @@
+% SPDX-License-Identifier: MIT
+% Copyright (c) 2022 Ross K. Snider  All rights reserved.
+%--------------------------------------------------------------------------
+% Description:  Matlab Function to create the frequency domain filters
+%               for the FFTAnalysisSynthesis  Simulink model. 
+%--------------------------------------------------------------------------
+% Authors:      Ross K. Snider
+% Company:      Montana State University
+% Create Date:  May 19, 2022
+% Revision:     1.0
+% License: MIT  (opensource.org/licenses/MIT)
+%--------------------------------------------------------------------------
 function modelParams = createFFTFilters(modelParams)
 
 modelParams.fftROMDataType = numerictype(1,16,8);
