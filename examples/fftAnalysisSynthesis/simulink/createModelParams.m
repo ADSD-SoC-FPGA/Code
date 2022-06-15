@@ -31,23 +31,36 @@ modelParams.audio.samplePeriod    = 1/modelParams.audio.sampleFrequency;
 %--------------------------------------------------------------------------
 modelParams.fft.size              = 128;     % length (size) of fft
 modelParams.fft.Nbits             = log2(modelParams.fft.size);
-modelParams.fft.size_half         = modelParams.fft.size/2;
-modelParams.fft.frame_shift       = modelParams.fft.size/4;  
-modelParams.fft.frame_shift_Nbits = log2(modelParams.fft.frame_shift);
+modelParams.fft.sizeHalf          = modelParams.fft.size/2;
+modelParams.fft.frameShift        = modelParams.fft.size/4;  
+modelParams.fft.frameShiftNbits   = log2(modelParams.fft.frameShift);
+
+%--------------------------------------------------------------------------
+% Hanning Window
+%--------------------------------------------------------------------------
+modelParams.hanningWindow.wordLength     = 24;
+modelParams.hanningWindow.fractionLength = 22;
+modelParams.hanningWindow.signed         = false; 
+modelParams.hanningWindow.dataType = numerictype(modelParams.hanningWindow.signed, ...
+                                     modelParams.hanningWindow.wordLength, ... 
+                                     modelParams.hanningWindow.fractionLength);
+modelParams.hanningWindow.coefficients = fi(hanning(modelParams.fft.size), ...
+                                         modelParams.hanningWindow.dataType);
 
 %--------------------------------------------------------------------------
 % Dual port dual rate memory for circular buffering fft 
 %--------------------------------------------------------------------------
 modelParams.dpram1.size         = modelParams.fft.size*2;  % number of words 
-modelParams.dpram1.address_size = log2(modelParams.dpram1.size);
-modelParams.dpram1.init         = modelParams.dpram1.size-10;
+modelParams.dpram1.addressSize = log2(modelParams.dpram1.size);
+%modelParams.dpram1.init         = modelParams.dpram1.size-10;
+modelParams.dpram1.init         = 0;  % initial count value (starting location)
 
 %--------------------------------------------------------------------------
 % Upsampling factor for FFT processing, i.e. how much faster the fast 
 % (system) clock must be to complete a FFT within the time of 
 % modelParams.fft.frame_shif number of samples
 %--------------------------------------------------------------------------
-modelParams.system.upsample_Factor = modelParams.fft.size/modelParams.fft.frame_shift * 32;  
+modelParams.system.upsampleFactor = 2048;  
 
 %--------------------------------------------------------------------------
 % Setup the FFT filters (lookup tables)
