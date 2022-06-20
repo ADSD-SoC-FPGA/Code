@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: GPL-2.0+
+#include "socfpga_cyclone5_de10_nano.dtsi"
+
+/{
+    model = "Audio Logic Audio Mini";
+    
+    ad1939 {
+        compatible = "dev,al-ad1939";
+    };
+    
+    tpa613a2 {
+        compatible = "dev,al-tpa613a2";
+    };    
+};
+
+&spi0{
+    status = "okay";
+};
