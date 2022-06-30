@@ -93,7 +93,7 @@ end
 fclose(fid2);
 
 %--------------------------------------------------------
-% Run test vectors through my_fxpt_function
+% Run test vectors through my_component1
 %--------------------------------------------------------
 matlab_vectors = my_component1(test_vectors);
 
