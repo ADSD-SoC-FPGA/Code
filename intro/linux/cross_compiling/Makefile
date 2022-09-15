@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2018 Trevor Vannoy.  All rights reserved.
+# Copyright (c) 2018,2022 Trevor Vannoy.  All rights reserved.
 #---------------------------------------------------------------------------------
 # Description:  Makefile for Cross Compiling for both ARM and x86 Architectures
 #               Running make creates two subdirectories: /exec (for the executables) 
@@ -9,13 +9,13 @@
 #---------------------------------------------------------------------------------
 # Author:       Trevor Vannoy
 # Company:      Montana State University
-# Create Date:  March 22, 2019
-# Revision:     1.0
+# Create Date:  March 22, 2018
+# Revision:     1.1
 # License: MIT  (opensource.org/licenses/MIT)
 #---------------------------------------------------------------------------------
 # Usage: Step 1: Export the cross compilation variables:
 #                ARCH=arm and CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
-#                This can be done with the associated script: source_env.sh
+#                This can be done with the associated script: arm_env.sh
 #                command: source arm_env.sh or . arm_env.sh
 #
 #	 Step 2: In line 26, add the name of the program (e.g. EXEC=hello)
@@ -49,18 +49,21 @@ X86EXECDIR=$(EXECDIR)/x86
 ARMEXECDIR=$(EXECDIR)/arm
 
 # GCC flags
-# 	static	: use static instead of dynamic linking
 # 	-g		: retain debugging/symbol info in executable
 # 	-Wall 	: enable all compilation warnings
 # 	-std 	: which c standard to use
 # 	-O 		: optimization level; 0 is no optimization
 # 	-I 		: include directories where headers are located
-CFLAGS=-static -g -Wall -std=gnu99 -O0 $(INC_PARAMS)
+CFLAGS=-g -Wall -std=gnu99 -O0 $(INC_PARAMS)
 
 # linker flags
-# 	-g 		: retain debugging info
-# 	-Wall 	: enable all compilation warnings
-LDFLAGS=-g -Wall
+# 	-static	: use static linking instead of dynamic linking
+# We don't need static linking for the x86 host because the shared objects
+# are guaranteed to be on our host. On our ARM target, however, it's possible
+# that some libraries may be missing or have incompatible versions; thus, we
+# default to static linking, at the expense of larger binaries; if this is
+# undesirable for your application, use dynamic linking instead!
+ARM_LDFLAGS=-static
 
 # arm cross compiler
 CC_ARM=$(CROSS_COMPILE)gcc
@@ -104,7 +107,7 @@ x86: x86dirs $(X86EXECDIR)/$(EXEC)
 # The recipe runs gcc with the linker flags to make the binary.
 # $^ is the list of all the prereqs, and $@ is the target
 $(ARMEXECDIR)/$(EXEC): $(ARMBUILDDIR)/$(OBJS)
-	$(CC_ARM) $(LDFLAGS) $^ -o $@
+	$(CC_ARM) $(ARM_LDFLAGS) $^ -o $@
 
 # target to build the ARM objects from the c files (which are preqreqs);
 # the recipe runs gcc with the cflags and creates the objects files for each
@@ -117,7 +120,7 @@ $(ARMBUILDDIR)/$(OBJS): $(SRCS)
 
 # target to build the x86 exectuable; same as the equivalent ARM target
 $(X86EXECDIR)/$(EXEC): $(X86BUILDDIR)/$(OBJS)
-	$(CC_X86) $(LDFLAGS) $^ -o $@
+	$(CC_X86) $^ -o $@
 
 # target to build the x86 object files; same as the equivalent ARM target
 $(X86BUILDDIR)/$(OBJS): $(SRCS)
