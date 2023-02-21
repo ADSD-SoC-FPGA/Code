@@ -1,4 +1,4 @@
-KDIR ?= ../linux-socfgpa
+KDIR $= ../linux-socfpga
 default:
 	$(MAKE) -C $(KDIR) ARCH=arm M=$(CURDIR) CROSS_COMPILE=arm-linux-gnueabihf-
 
