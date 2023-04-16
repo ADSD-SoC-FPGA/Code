@@ -31,4 +31,4 @@ function s = sumexp(f,C,fs,dur)
 %           fs = sampling frequency in Hz (resolution of generated waveform)
 %           dur = duration of signal in seconds
 % Output : s = reconstructed signal from Fourier coefficients
-s=real(C(:)'*(exp(1j*2*pi*f(:)*[0:(1/fs):dur])));
+s=real(C(:).'*(exp(1j*2*pi*f(:)*[0:(1/fs):dur])));
