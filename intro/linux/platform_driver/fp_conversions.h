@@ -141,13 +141,13 @@ uint32_t str_to_fp(const char * s, int num_fractional_bits, bool is_signed, size
   // convert the decimal fraction to binary info. 32 is arbitrary, it is the precision of the conversion. extra
   // precision beyond the number of fractional bits in the fixed point num will be truncated off.
   for (i = 0; i < num_fractional_bits; i++) {
+    frac_part_decimal *= 2;
+    accumulator = accumulator << 1;
     // if frac part divided by frac comp is greater than 1, a 1 should be appended to bitstring
     if (frac_part_decimal / frac_comp) {
       accumulator += 0x00000001;
       frac_part_decimal -= frac_comp;
     }
-    frac_part_decimal *= 2;
-    accumulator = accumulator << 1;
   }
   accumulator += int_part_decimal << num_fractional_bits;
   if (is_signed && substring[0] == '-') {
