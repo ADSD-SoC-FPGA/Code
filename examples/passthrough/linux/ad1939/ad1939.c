@@ -153,8 +153,10 @@ static const struct file_operations al_ad1939_fops =
 static int ad1939_init(void)
 {
     int ret_val = 0;
+    char cmd[3];
     
     // Add the spi master 
+    struct spi_board_info spi_device_info;
     struct spi_master *master;
     
     pr_info("Initializing the Audio Logic ad1939 module\n");
@@ -172,7 +174,7 @@ static int ad1939_init(void)
     ------------------------------------------------------------------*/
     
     // Register the device
-    struct spi_board_info spi_device_info = {
+    spi_device_info = (struct spi_board_info){
         .modalias = "al_ad1939_",     // Needs to be the same as the device name
         .max_speed_hz = speed,
         .bus_num = 1,             // Determined from /sys/class/spi_master                
@@ -213,7 +215,9 @@ static int ad1939_init(void)
 
     printk("\tUnmuting the channels\n");
     // Set the unmute commands
-    char cmd[3] = {0x08,0x00,0x80};
+    cmd[0] = 0x08;
+    cmd[1] = 0x00;
+    cmd[2] = 0x80;
     ret_val = spi_write(spi_device,&cmd, sizeof(cmd));
     //printk("%d\n",ret_val);
 
