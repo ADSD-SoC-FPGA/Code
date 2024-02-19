@@ -241,6 +241,7 @@ static const struct file_operations al_tpa613a2_fops =
 static int tpa613a2_init(void)
 {
     int ret_val = 0;
+    char cmd[2];
     struct i2c_adapter *i2c_adapt;
     struct i2c_board_info i2c_info;
     
@@ -284,7 +285,8 @@ static int tpa613a2_init(void)
     //Send some initialization commands
 
     // Enable both channels
-    char cmd[2] = {0x01, 0xc0};
+    cmd[0] = 0x01;
+    cmd[1] = 0xc0;
     i2c_master_send(tpa_i2c_client,&cmd[0],2);
 
     // Set -.3dB gain on both channels (closest value to unity)
