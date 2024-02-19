@@ -901,13 +901,13 @@ uint32_t decode_volume(uint8_t code)
   if (i < PN_INDEX)
   {    
     decodedDB = VolumeLevels[i].value;
-    decodedDB = (decodedDB<<=16)/10;
+    decodedDB = (decodedDB<<16)/10;
     return -1*decodedDB;
   }  
   else
   {
     decodedDB = VolumeLevels[i].value;
-    return (decodedDB<<=16)/10;
+    return (decodedDB<<16)/10;
   }  
 
 

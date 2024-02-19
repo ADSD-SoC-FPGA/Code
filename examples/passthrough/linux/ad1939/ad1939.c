@@ -1390,7 +1390,7 @@ uint32_t decode_volume(uint8_t volume_level)
   uint32_t decodedDb = (uint32_t)volume_level;
 
   // Return the shifted and scaled number to keep with convention
-  return (decodedDb<<=16)*3/8;
+  return (decodedDb<<16)*3/8;
 }
 
 /** Tell the kernel what the initialization function is */
