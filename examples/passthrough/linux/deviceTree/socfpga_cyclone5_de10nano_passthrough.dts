@@ -3,11 +3,7 @@
 
 /{
     model = "Audio Logic Audio Mini";
-    
-    ad1939 {
-        compatible = "dev,al-ad1939";
-    };
-    
+
     tpa613a2 {
         compatible = "dev,al-tpa613a2";
     };    
@@ -15,4 +11,17 @@
 
 &spi0{
     status = "okay";
+
+    ad1939@0 {
+        compatible = "dev,al-ad1939";
+        spi-max-frequency = <500000>;
+
+        // chip-select 0
+        reg = <0>;
+
+        // set spi mode to 3
+        spi-cpol;
+        spi-cpha;
+    };
+
 };
