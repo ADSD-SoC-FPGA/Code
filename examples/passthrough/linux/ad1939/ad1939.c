@@ -39,7 +39,7 @@ static dev_t dev_num;
 
 // Function Prototypes
 static int ad1939_probe(struct platform_device *pdev);
-static int ad1939_remove(struct platform_device *pdev);
+static void ad1939_remove(struct platform_device *pdev);
 static ssize_t ad1939_read(struct file *file, char *buffer, size_t len, loff_t *offset);
 static ssize_t ad1939_write(struct file *file, const char *buffer, size_t len, loff_t *offset);
 static int ad1939_open(struct inode *inode, struct file *file);
@@ -126,7 +126,7 @@ MODULE_DEVICE_TABLE(of, al_ad1939_dt_ids);
 static struct platform_driver ad1939_platform =
 {
     .probe = ad1939_probe,
-    .remove = ad1939_remove,
+    .remove_new = ad1939_remove,
     .driver = {
         .name = "Audio Logic ad1939 Driver",
         .owner = THIS_MODULE,
@@ -526,7 +526,7 @@ static ssize_t ad1939_write(struct file *file, const char *buffer, size_t len, l
     @param platform_device Pointer to the device structure being deleted
     @returns SUCCESS
 */
-static int ad1939_remove(struct platform_device *pdev)
+static void ad1939_remove(struct platform_device *pdev)
 {
     // Grab the instance-specific information out of the platform device
     al_ad1939_dev_t *dev = (al_ad1939_dev_t *)platform_get_drvdata(pdev);
@@ -554,8 +554,6 @@ static int ad1939_remove(struct platform_device *pdev)
     //iounmap(dev->regs);
 
     pr_info("ad1939_remove exit\n");
-
-    return 0;
 }
 
 
