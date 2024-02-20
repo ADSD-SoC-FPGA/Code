@@ -45,8 +45,8 @@ derive_pll_clocks
 #       2. Select Task: "Read SDC file"  (Under netlist setup)
 #       3. Select Task: "Report Clocks"  (Under \Reports\Diagnostic)
 #**************************************************************
-set data_plane_clock    "u0|pll_using_ad1939_mclk|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk"
-set PLL_internal_clock  "u0|pll_using_ad1939_mclk|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]"
+set data_plane_clock    "u0|ad1939_subsystem|sys_clk_from_ad1939_mclk_pll|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk"
+set PLL_internal_clock  "u0|ad1939_subsystem|sys_clk_from_ad1939_mclk_pll|altera_pll_i|general[0].gpll~FRACTIONAL_PLL|vcoph[0]"
 
 #**************************************************************
 # Set Clock Latency
@@ -288,8 +288,8 @@ set_multicycle_path -from {soc_system:u0|soc_system_hps:hps|soc_system_hps_fpga_
 # set_multicycle_path -from {soc_system:u0|soc_system_hps:hps|soc_system_hps_fpga_interfaces:fpga_interfaces|hps2fpga_light_weight~FF_*} -to {soc_system:u0|soc_system_mm_interconnect_1:mm_interconnect_1|altera_merlin_axi_master_ni:hps_h2f_lw_axi_master_agent|altera_merlin_address_alignment:align_address_to_size|address_burst[*]} -hold $soc_hold
 # set_multicycle_path -from {soc_system:u0|soc_system_hps:hps|soc_system_hps_fpga_interfaces:fpga_interfaces|hps2fpga_light_weight~FF_*} -to {soc_system:u0|soc_system_mm_interconnect_1:mm_interconnect_1|altera_merlin_axi_master_ni:hps_h2f_lw_axi_master_agent|altera_merlin_address_alignment:align_address_to_size|address_burst[*]} -setup $soc_setup
 
-set_multicycle_path -setup -from [get_clocks {AD1939_ADC_ALRCLK}]  -to  [get_clocks {u0|pll_using_ad1939_mclk|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk}] 2
-set_multicycle_path -hold -from [get_clocks {AD1939_ADC_ALRCLK}]  -to  [get_clocks {u0|pll_using_ad1939_mclk|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk}] 2
+set_multicycle_path -setup -from [get_clocks {AD1939_ADC_ALRCLK}]  -to  [get_clocks {u0|ad1939_subsystem|sys_clk_from_ad1939_mclk_pll|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk}] 2
+set_multicycle_path -hold -from [get_clocks {AD1939_ADC_ALRCLK}]  -to  [get_clocks {u0|ad1939_subsystem|sys_clk_from_ad1939_mclk_pll|altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER|divclk}] 2
 
 # set_multicycle_path -from [get_clocks {FPGA_CLK1_50}] -to [get_clocks {FPGA_CLK1_50}] -setup 2
 # set_multicycle_path -from [get_clocks {FPGA_CLK1_50}] -to [get_clocks {FPGA_CLK1_50}] -hold 1
