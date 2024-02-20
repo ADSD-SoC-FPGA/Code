@@ -125,7 +125,7 @@ static const unsigned short normal_i2c[]=
 
 // Function Prototypes
 static int tpa613a2_probe(struct platform_device *pdev);
-static int tpa613a2_remove(struct platform_device *pdev);
+static void tpa613a2_remove(struct platform_device *pdev);
 static ssize_t tpa613a2_read(struct file *file, char *buffer, size_t len, loff_t *offset);
 static ssize_t tpa613a2_write(struct file *file, const char *buffer, size_t len, loff_t *offset);
 static int tpa613a2_open(struct inode *inode, struct file *file);
@@ -191,10 +191,10 @@ static int tpa_i2c_probe(struct i2c_client *client,
   return 0;
 }
 
-static int tpa_i2c_remove(struct i2c_client *client)
+static void tpa_i2c_remove(struct i2c_client *client)
 {
-  return 0;
 }
+
 struct i2c_driver tpa_i2c_driver = {
     .driver = { 
         .name="tpa_i2c",
@@ -212,7 +212,7 @@ MODULE_DEVICE_TABLE(of, al_tpa613a2_dt_ids);
 static struct platform_driver tpa613a2_platform =
 {
       .probe = tpa613a2_probe,
-      .remove = tpa613a2_remove,
+      .remove_new = tpa613a2_remove,
       .driver = {
       .name = "Audio Logic tpa613a2 Driver",
       .owner = THIS_MODULE,
@@ -241,6 +241,7 @@ static const struct file_operations al_tpa613a2_fops =
 static int tpa613a2_init(void)
 {
     int ret_val = 0;
+    char cmd[2];
     struct i2c_adapter *i2c_adapt;
     struct i2c_board_info i2c_info;
     
@@ -284,7 +285,8 @@ static int tpa613a2_init(void)
     //Send some initialization commands
 
     // Enable both channels
-    char cmd[2] = {0x01, 0xc0};
+    cmd[0] = 0x01;
+    cmd[1] = 0xc0;
     i2c_master_send(tpa_i2c_client,&cmd[0],2);
 
     // Set -.3dB gain on both channels (closest value to unity)
@@ -496,7 +498,7 @@ static ssize_t tpa613a2_write(struct file *file, const char *buffer, size_t len,
     @param platform_device Pointer to the device structure being deleted
     @returns SUCCESS
 */
-static int tpa613a2_remove(struct platform_device *pdev)
+static void tpa613a2_remove(struct platform_device *pdev)
 {
     // Grab the instance-specific information out of the platform device
     al_tpa613a2_dev_t *dev = (al_tpa613a2_dev_t *)platform_get_drvdata(pdev);
@@ -510,8 +512,6 @@ static int tpa613a2_remove(struct platform_device *pdev)
     unregister_chrdev_region(dev_num, 2);
 
     pr_info("tpa613a2_remove exit\n");
-
-    return 0;
 }
 
 
@@ -901,13 +901,13 @@ uint32_t decode_volume(uint8_t code)
   if (i < PN_INDEX)
   {    
     decodedDB = VolumeLevels[i].value;
-    decodedDB = (decodedDB<<=16)/10;
+    decodedDB = (decodedDB<<16)/10;
     return -1*decodedDB;
   }  
   else
   {
     decodedDB = VolumeLevels[i].value;
-    return (decodedDB<<=16)/10;
+    return (decodedDB<<16)/10;
   }  
 
 
