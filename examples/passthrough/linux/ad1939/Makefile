@@ -1,4 +1,6 @@
 KDIR ?= ../linux-socfpga
+INSTALL_MOD_PATH ?= /srv/nfs/de10nano/ubuntu-rootfs
+
 default:
 	$(MAKE) -C $(KDIR) ARCH=arm M=$(CURDIR) CROSS_COMPILE=arm-linux-gnueabihf-
 
