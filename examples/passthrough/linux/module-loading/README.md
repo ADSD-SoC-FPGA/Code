@@ -20,7 +20,7 @@ The steps to accomplish this are:
 - Install the module to your network-shared root filesystem
   - From the same directory, run this command:
     ```sh
-    sudo KDIR=<path_to_linux-socfpga_repo> make INSTALL_MOD_PATH=/srv/nfs/de10nano/ubuntu-rootfs modules_install
+    sudo make modules_install
     ```
 - Repeat the above steps for any other modules
 - Configure your system to automatically load the modules on every boot
