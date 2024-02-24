@@ -22,6 +22,7 @@ The steps to accomplish this are:
     ```sh
     sudo make modules_install
     ```
+    This will likely print three warning messages about missing files. These can safely be ignored.
 - Repeat the above steps for any other modules
 - Configure your system to automatically load the modules on every boot
   - Copy [`audiomini-modules.conf`](audiomini-modules.conf) into the `/etc/modules-load.d/` directory within your board's root filesystem
