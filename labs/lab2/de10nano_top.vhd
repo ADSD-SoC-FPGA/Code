@@ -71,7 +71,7 @@ entity de10nano_top is
 
     ----------------------------------------
     --  Arudino headers
-    --  See DE10 Nano User Manual page 27
+    --  See DE10 Nano User Manual page 30
     ----------------------------------------
     arduino_io      : inout std_logic_vector(15 downto 0);
     arduino_reset_n : inout std_logic
