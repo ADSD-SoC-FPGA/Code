@@ -6,7 +6,7 @@ name : adsd_vhdl_style
 
 rule :
   global:
-    indentSize: 2
+    indent_size: 2
 
   # Make everything lowercase
   group:
@@ -89,7 +89,7 @@ rule :
 
   # Don't indent the use clause after the library clause
   library_008:
-    indentSize: 0
+    indent_size: 0
     
   # Allow comments above entity, etc. without a blank line
   entity_003:
