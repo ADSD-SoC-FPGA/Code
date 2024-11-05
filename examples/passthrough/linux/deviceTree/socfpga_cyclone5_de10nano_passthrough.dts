@@ -3,9 +3,16 @@
 
 /{
     model = "Audio Logic Audio Mini";
+};
 
-    tpa613a2 {
-        compatible = "dev,al-tpa613a2";
+&i2c0{
+    status = "okay";
+    clock-frequency = <100000>;
+
+    tpa6130a2@60 {
+        compatible = "dev,al-tpa6130a2";
+        // I2C address (in 7-bit form)
+        reg = <0x60>;
     };    
 };
 
