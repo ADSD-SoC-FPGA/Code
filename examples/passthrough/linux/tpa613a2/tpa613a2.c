@@ -14,6 +14,7 @@
 #include <linux/cdev.h>
 #include <linux/regmap.h>
 #include <linux/i2c.h>
+#include <linux/version.h>
 
 
 // Define information about this kernel module
@@ -185,8 +186,12 @@ static struct i2c_board_info tpa_i2c_info = {
   I2C_BOARD_INFO("tpa_i2c",0x60),
 };
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6,3,0)
 static int tpa_i2c_probe(struct i2c_client *client,
                          const struct i2c_device_id *id)
+#else
+static int tpa_i2c_probe(struct i2c_client *client)
+#endif
 {
   return 0;
 }
@@ -353,7 +358,11 @@ static int tpa613a2_probe(struct platform_device *pdev)
     pr_info("%s\n", deviceName);
 
     //Create sysfs entries
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6,4,0)
     cl = class_create(THIS_MODULE, deviceName);
+#else
+    cl = class_create(deviceName);
+#endif
     if (cl == NULL)
         goto bad_class_create;
 
