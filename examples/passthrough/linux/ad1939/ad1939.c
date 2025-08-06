@@ -8,6 +8,7 @@
 
 #include <linux/module.h>
 #include <linux/spi/spi.h>
+#include <linux/of.h>
 
 static int ad1939_audiomini_probe(struct spi_device *spidev)
 {
