@@ -316,13 +316,13 @@
  <interface name="hps_spim0_sclk_out" internal="hps.spim0_sclk_out" />
  <interface name="memory" internal="hps.memory" type="conduit" dir="end" />
  <interface name="reset" internal="fpga_clk.clk_in_reset" type="reset" dir="end" />
- <module name="fpga_clk" kind="clock_source" version="23.1" enabled="1">
+ <module name="fpga_clk" kind="clock_source" version="24.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="DEASSERT" />
  </module>
- <module name="hps" kind="altera_hps" version="23.1" enabled="1">
+ <module name="hps" kind="altera_hps" version="24.1" enabled="1">
   <parameter name="ABSTRACT_REAL_COMPARE_TEST" value="false" />
   <parameter name="ABS_RAM_MEM_INIT_FILENAME" value="meminit" />
   <parameter name="ACV_PHY_CLK_ADD_FR_PHASE" value="0.0" />
@@ -854,7 +854,7 @@
  </module>
  <connection
    kind="clock"
-   version="23.1"
+   version="24.1"
    start="fpga_clk.clk"
    end="hps.h2f_lw_axi_clock" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
